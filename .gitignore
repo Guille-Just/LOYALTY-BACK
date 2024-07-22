@@ -1,0 +1,14 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.vscode/
+*.csproj.user
+*.vcxproj.user
+*.vcxproj.filters
+*.pdb
+bin/
+obj/
+*.log
+*.tlog
+*.ide*
