@@ -1,8 +1,8 @@
 namespace LOYALTY_BACK
 {
-    public partial class Form1 : Form
+    public partial class Configurador : Form
     {
-        public Form1()
+        public Configurador()
         {
             InitializeComponent();
         }

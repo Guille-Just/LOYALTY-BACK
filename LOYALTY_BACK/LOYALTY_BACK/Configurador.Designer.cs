@@ -1,6 +1,6 @@
 ﻿namespace LOYALTY_BACK
 {
-    partial class Form1
+    partial class Configurador
     {
         /// <summary>
         ///  Required designer variable.
