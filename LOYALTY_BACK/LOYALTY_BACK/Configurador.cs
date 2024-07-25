@@ -5,6 +5,7 @@ namespace LOYALTY_BACK
         public Configurador()
         {
             InitializeComponent();
+            Task task = Servicios.ServicioSegundoPlano();
         }
     }
 }
