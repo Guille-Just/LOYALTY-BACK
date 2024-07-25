@@ -5,7 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using Npgsql;
+
 
 namespace LOYALTY_BACK
 {
@@ -84,31 +85,28 @@ namespace LOYALTY_BACK
 
 
 
-        static (string Codigo, double Puntos) GetFidelizacionInfo(string idCliente)
+        static (string Codigo, int Puntos) GetFidelizacionInfo(string idCliente)
         {
-
-            string codigoFidelizacion = "lkj-123-asd-123";
-            double puntosAcumulados = 12.50;
-            /*string connectionString = "your_connection_string_here"; // Actualiza con tu cadena de conexión
+            string connectionString = "Host=localhost;Username=postgres;Password=asd;Database=postgres"; // Actualiza con tu cadena de conexión
             string codigoFidelizacion = string.Empty;
             int puntosAcumulados = 0;
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT CodigoFidelizacion, Puntos FROM Clientes WHERE IdCliente = @IdCliente";
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    string query = "SELECT codigo, puntos FROM fidelizacion WHERE id = @IdCliente";
+                    using (var command = new NpgsqlCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@IdCliente", idCliente);
+                        command.Parameters.AddWithValue("@IdCliente", double.Parse(idCliente));
 
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        using (var reader = command.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                codigoFidelizacion = reader["CodigoFidelizacion"].ToString();
-                                puntosAcumulados = Convert.ToInt32(reader["Puntos"]);
+                                codigoFidelizacion = reader["codigo"].ToString();
+                                puntosAcumulados = Convert.ToInt32(reader["puntos"]);
                             }
                         }
                     }
@@ -116,9 +114,9 @@ namespace LOYALTY_BACK
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al acceder a la base de datos: {ex.Message}");
+                Globales.CrearLog($"Error al acceder a la base de datos: {ex.Message}");
             }
-            */
+
             return (codigoFidelizacion, puntosAcumulados);
         }
     }

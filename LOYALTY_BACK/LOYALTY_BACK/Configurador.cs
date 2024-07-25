@@ -5,6 +5,7 @@ namespace LOYALTY_BACK
         public Configurador()
         {
             InitializeComponent();
+            Globales.CrearLog("Se inicio loyalty v" + Globales.VERSION);
             Task task = Servicios.ServicioSegundoPlano();
         }
     }
