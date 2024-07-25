@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Controlador\" />
     <Folder Include="Vista\" />
   </ItemGroup>
 
