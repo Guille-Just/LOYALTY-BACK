@@ -4,7 +4,7 @@ namespace LOYALTY_BACK
     {
         public Configurador()
         {
-            bool bEnabled = false;  
+            bool prueba = false;  
             InitializeComponent();
         }
     }
