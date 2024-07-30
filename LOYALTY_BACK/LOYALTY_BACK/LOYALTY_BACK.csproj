@@ -9,8 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controlador\" />
     <Folder Include="Vista\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 
 </Project>
