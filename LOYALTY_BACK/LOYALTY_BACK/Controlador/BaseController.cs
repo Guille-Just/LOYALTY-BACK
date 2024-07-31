@@ -1,22 +1,15 @@
-﻿using LOYALTY_BACK.Servicios;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace LOYALTY_BACK.Controlador
 {
-    internal class FidelizacionController
+    internal abstract class BaseController
     {
-
-        private readonly FidelizacionService _fidelizacionService;
-
-        public FidelizacionController(FidelizacionService fidelizacionService)
-        {
-            _fidelizacionService = fidelizacionService;
-        }
 
         public async Task HandleRequest(HttpListenerContext context)
         {
@@ -29,25 +22,9 @@ namespace LOYALTY_BACK.Controlador
                 {
                     string path = context.Request.Url.AbsolutePath;
                     string idCliente = context.Request.QueryString["id_cliente"];
-                    Globales.CrearLog("Solicitud: " + context.Request.Url);
                     if (!string.IsNullOrEmpty(idCliente))
                     {
-                        if (path == "/fidelizacion")
-                        {
-                            var fidelizacionInfo = _fidelizacionService.GetFidelizacionInfo(idCliente);
-                            if (fidelizacionInfo != null)
-                            {
-                                responseString = JsonSerializer.Serialize(fidelizacionInfo);
-                            }
-                            else
-                            {
-                                responseString = JsonSerializer.Serialize(new { Error = "Cliente no encontrado." });
-                            }
-                        }
-                        else
-                        {
-                            responseString = JsonSerializer.Serialize(new { Error = "Ruta no soportada." });
-                        }
+                        responseString = await HandleGetRequest(path, idCliente);
                     }
                     else
                     {
@@ -70,5 +47,9 @@ namespace LOYALTY_BACK.Controlador
             context.Response.OutputStream.Close();
             Globales.CrearLog("Respuesta: " + responseString);
         }
+
+        protected abstract Task<string> HandleGetRequest(string path, string idCliente);
+
+
     }
 }

@@ -41,6 +41,8 @@ namespace LOYALTY_BACK
 
             var fidelizacionService = new FidelizacionService(connectionString);
             var fidelizacionController = new FidelizacionController(fidelizacionService);
+            var ticketService = new TicketsService(connectionString);
+            var ticketController = new TicketsController(ticketService);
 
             HttpListener listener = new HttpListener();
             string url = "http://" + Globales.IP_SERVER + ":" + Globales.PORT_SERVER + "/";
@@ -50,8 +52,23 @@ namespace LOYALTY_BACK
 
             while (true)
             {
+                //HttpListenerContext context = await listener.GetContextAsync();
+                //_ = Task.Run(() => fidelizacionController.HandleRequest(context));
                 HttpListenerContext context = await listener.GetContextAsync();
-                _ = Task.Run(() => fidelizacionController.HandleRequest(context));
+
+                if (context.Request.Url.AbsolutePath.StartsWith("/fidelizacion"))
+                {
+                    _ = Task.Run(() => fidelizacionController.HandleRequest(context));
+                }
+                else if (context.Request.Url.AbsolutePath.StartsWith("/ticket"))
+                {
+                    _ = Task.Run(() => ticketController.HandleRequest(context));
+                }
+                else
+                {
+                    context.Response.StatusCode = 404;
+                    context.Response.Close();
+                }
             }
         }
     }

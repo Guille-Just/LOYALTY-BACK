@@ -8,26 +8,26 @@ using System.Threading.Tasks;
 
 namespace LOYALTY_BACK.Servicios
 {
-    internal class FidelizacionService
+    internal class TicketsService
     {
 
         private readonly string _connectionString;
 
-        public FidelizacionService(string connectionString)
+        public TicketsService(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public FidelizacionInfo GetFidelizacionInfo(string idCliente)
+        public Ticket GetTiketInfo(string idCliente)
         {
-            FidelizacionInfo fidelizacionInfo = null;
+            Ticket ticket = null;
 
             try
             {
                 using (var connection = new NpgsqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT codigo, puntos FROM fidelizacion WHERE fid_id = @IdCliente";
+                    string query = "SELECT ticket_id, doc_id FROM ticket WHERE fid_id = @IdCliente";
                     using (var command = new NpgsqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@IdCliente", int.Parse(idCliente));
@@ -36,10 +36,10 @@ namespace LOYALTY_BACK.Servicios
                         {
                             if (reader.Read())
                             {
-                                fidelizacionInfo = new FidelizacionInfo
+                                ticket = new Ticket
                                 {
-                                    CodigoFidelizacion = reader["codigo"].ToString(),
-                                    PuntosAcumulados = Convert.ToInt32(reader["puntos"])
+                                    ticket_id = int.Parse(reader["ticket_id"].ToString()),
+                                    doc_id = Convert.ToInt32(reader["doc_id"])
                                 };
                             }
                         }
@@ -51,8 +51,9 @@ namespace LOYALTY_BACK.Servicios
                 Globales.CrearLog($"Error al acceder a la base de datos: {ex.Message}");
             }
 
-            return fidelizacionInfo;
+            return ticket;
         }
+
+
     }
-        
 }
