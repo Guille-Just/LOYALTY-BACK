@@ -34,6 +34,13 @@
             label_port_server = new Label();
             tb_port_server = new TextBox();
             btn_start = new Button();
+            button1 = new Button();
+            label1 = new Label();
+            tb_fid_id = new TextBox();
+            label2 = new Label();
+            tb_ruta_ticket = new TextBox();
+            groupBox1 = new GroupBox();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // tb_ip_server
@@ -90,6 +97,64 @@
             btn_start.UseVisualStyleBackColor = true;
             btn_start.Click += btn_start_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(15, 81);
+            button1.Name = "button1";
+            button1.Size = new Size(213, 23);
+            button1.TabIndex = 6;
+            button1.Text = "test: insert ticket";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += btn_test_subir_ticket_a_bd;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(15, 58);
+            label1.Name = "label1";
+            label1.Size = new Size(82, 15);
+            label1.TabIndex = 10;
+            label1.Text = "fidelizacion_id";
+            // 
+            // tb_fid_id
+            // 
+            tb_fid_id.Location = new Point(128, 55);
+            tb_fid_id.Name = "tb_fid_id";
+            tb_fid_id.Size = new Size(100, 23);
+            tb_fid_id.TabIndex = 9;
+            tb_fid_id.Text = "2";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(15, 29);
+            label2.Name = "label2";
+            label2.Size = new Size(107, 15);
+            label2.TabIndex = 8;
+            label2.Text = "ruta local del ticket";
+            // 
+            // tb_ruta_ticket
+            // 
+            tb_ruta_ticket.Location = new Point(128, 26);
+            tb_ruta_ticket.Name = "tb_ruta_ticket";
+            tb_ruta_ticket.Size = new Size(100, 23);
+            tb_ruta_ticket.TabIndex = 7;
+            tb_ruta_ticket.Text = "C:\\reportdocumento.pdf";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(tb_fid_id);
+            groupBox1.Controls.Add(button1);
+            groupBox1.Controls.Add(tb_ruta_ticket);
+            groupBox1.Location = new Point(543, 320);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(245, 118);
+            groupBox1.TabIndex = 11;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "zona testing";
+            // 
             // Configurador
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -101,8 +166,11 @@
             Controls.Add(btn_guardar);
             Controls.Add(label_ip_server);
             Controls.Add(tb_ip_server);
+            Controls.Add(groupBox1);
             Name = "Configurador";
             Text = "Form1";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -115,5 +183,11 @@
         private Label label_port_server;
         private TextBox tb_port_server;
         private Button btn_start;
+        private Button button1;
+        private Label label1;
+        private TextBox tb_fid_id;
+        private Label label2;
+        private TextBox tb_ruta_ticket;
+        private GroupBox groupBox1;
     }
 }

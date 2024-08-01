@@ -11,7 +11,7 @@ namespace LOYALTY_BACK.Modelo
     {
         public int ticket_id {  get; set; }
         public int fidelizacion_id { get; set; }
-        public BlobWriter ticket { get; set; }
+        public byte[] ticket { get; set; }
         public int doc_id { get; set; }
     }
 }

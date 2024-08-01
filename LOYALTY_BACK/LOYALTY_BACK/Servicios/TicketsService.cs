@@ -27,7 +27,7 @@ namespace LOYALTY_BACK.Servicios
                 using (var connection = new NpgsqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT ticket_id, doc_id FROM ticket WHERE fid_id = @IdCliente";
+                    string query = "SELECT * FROM ticket WHERE fid_id = @IdCliente";
                     using (var command = new NpgsqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@IdCliente", int.Parse(idCliente));
@@ -38,8 +38,10 @@ namespace LOYALTY_BACK.Servicios
                             {
                                 ticket = new Ticket
                                 {
-                                    ticket_id = int.Parse(reader["ticket_id"].ToString()),
-                                    doc_id = Convert.ToInt32(reader["doc_id"])
+                                    fidelizacion_id = Convert.ToInt32(reader["fid_id"]),
+                                    ticket_id = Convert.ToInt32(reader["ticket_id"]),
+                                    doc_id = Convert.ToInt32(reader["doc_id"]),
+                                    ticket = reader["ticket"] as byte[] // Leer el campo bytea como byte[]
                                 };
                             }
                         }
