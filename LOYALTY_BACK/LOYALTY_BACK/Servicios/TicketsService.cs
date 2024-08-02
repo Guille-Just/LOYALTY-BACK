@@ -38,10 +38,10 @@ namespace LOYALTY_BACK.Servicios
                             {
                                 ticket = new Ticket
                                 {
-                                    fidelizacion_id = Convert.ToInt32(reader["fid_id"]),
-                                    ticket_id = Convert.ToInt32(reader["ticket_id"]),
-                                    doc_id = Convert.ToInt32(reader["doc_id"]),
-                                    ticket = reader["ticket"] as byte[] // Leer el campo bytea como byte[]
+                                    fidelizacion_id = reader.IsDBNull(reader.GetOrdinal("fid_id")) ? 0 : Convert.ToInt32(reader["fid_id"]),
+                                    ticket_id = reader.IsDBNull(reader.GetOrdinal("ticket_id")) ? 0 : Convert.ToInt32(reader["ticket_id"]),
+                                    doc_id = reader.IsDBNull(reader.GetOrdinal("doc_id")) ? 0 : Convert.ToInt32(reader["doc_id"]),
+                                    ticket = reader.IsDBNull(reader.GetOrdinal("ticket")) ? null : reader["ticket"] as byte[] // Leer el campo bytea como byte[]
                                 };
                             }
                         }

@@ -9,9 +9,11 @@ namespace LOYALTY_BACK.Modelo
     internal class FidelizacionInfo
     {
         public int id_fidelizacion {  get; set; }
-        public int id_usuario { get; set; }
-        public int id_metodo { get; set; }
+        public int tienda_id { get; set; }
+        public int tipo_fid_id { get; set; }
         public string? CodigoFidelizacion { get; set; }
         public int PuntosAcumulados { get; set; }
+
+        public int papel_0 { get; set; }
     }
 }

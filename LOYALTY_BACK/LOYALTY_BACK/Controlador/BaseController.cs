@@ -22,6 +22,7 @@ namespace LOYALTY_BACK.Controlador
                 {
                     string path = context.Request.Url.AbsolutePath;
                     string idCliente = context.Request.QueryString["id_cliente"];
+                    Globales.CrearLog("Solicitud: " + context.Request.Url);
                     if (!string.IsNullOrEmpty(idCliente))
                     {
                         responseString = await HandleGetRequest(path, idCliente);

@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace LOYALTY_BACK.Controlador
 {
-    internal class FidelizacionController
+    internal class FidelizacionController : BaseController
     {
 
         private readonly FidelizacionService _fidelizacionService;
@@ -18,57 +18,31 @@ namespace LOYALTY_BACK.Controlador
             _fidelizacionService = fidelizacionService;
         }
 
-        public async Task HandleRequest(HttpListenerContext context)
+        protected override Task<string> HandleGetRequest(string path, string idCliente)
         {
-            string responseString = string.Empty;
-            context.Response.ContentType = "application/json";
+            return Task.FromResult(HandleFidelizacionRequest(path, idCliente));
+        }
 
-            try
+        private string HandleFidelizacionRequest(string path, string idCliente)
+        {
+            if (path == "/fidelizacion")
             {
-                if (context.Request.HttpMethod == "GET")
+                var tiketInfo = _fidelizacionService.GetFidelizacionInfo(idCliente);
+                if (tiketInfo != null)
                 {
-                    string path = context.Request.Url.AbsolutePath;
-                    string idCliente = context.Request.QueryString["id_cliente"];
-                    Globales.CrearLog("Solicitud: " + context.Request.Url);
-                    if (!string.IsNullOrEmpty(idCliente))
-                    {
-                        if (path == "/fidelizacion")
-                        {
-                            var fidelizacionInfo = _fidelizacionService.GetFidelizacionInfo(idCliente);
-                            if (fidelizacionInfo != null)
-                            {
-                                responseString = JsonSerializer.Serialize(fidelizacionInfo);
-                            }
-                            else
-                            {
-                                responseString = JsonSerializer.Serialize(new { Error = "Cliente no encontrado." });
-                            }
-                        }
-                        else
-                        {
-                            responseString = JsonSerializer.Serialize(new { Error = "Ruta no soportada." });
-                        }
-                    }
-                    else
-                    {
-                        responseString = JsonSerializer.Serialize(new { Error = "Parámetro id_cliente es requerido." });
-                    }
+                    return JsonSerializer.Serialize(tiketInfo);
                 }
                 else
                 {
-                    responseString = JsonSerializer.Serialize(new { Error = "Método no soportado. Utiliza GET." });
+                    return JsonSerializer.Serialize(new { Error = "Cliente no encontrado." });
                 }
             }
-            catch (Exception ex)
+            else
             {
-                responseString = JsonSerializer.Serialize(new { Error = $"Error: {ex.Message}" });
+                return JsonSerializer.Serialize(new { Error = "Ruta no soportada." });
             }
-
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            context.Response.ContentLength64 = buffer.Length;
-            await context.Response.OutputStream.WriteAsync(buffer, 0, buffer.Length);
-            context.Response.OutputStream.Close();
-            Globales.CrearLog("Respuesta: " + responseString);
         }
+
+        
     }
 }

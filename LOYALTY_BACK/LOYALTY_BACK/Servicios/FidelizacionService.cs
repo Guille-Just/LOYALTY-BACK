@@ -27,7 +27,7 @@ namespace LOYALTY_BACK.Servicios
                 using (var connection = new NpgsqlConnection(_connectionString))
                 {
                     connection.Open();
-                    string query = "SELECT codigo, puntos FROM fidelizacion WHERE fid_id = @IdCliente";
+                    string query = "SELECT * FROM fidelizacion WHERE fid_id = @IdCliente";
                     using (var command = new NpgsqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@IdCliente", int.Parse(idCliente));
@@ -38,8 +38,12 @@ namespace LOYALTY_BACK.Servicios
                             {
                                 fidelizacionInfo = new FidelizacionInfo
                                 {
-                                    CodigoFidelizacion = reader["codigo"].ToString(),
-                                    PuntosAcumulados = Convert.ToInt32(reader["puntos"])
+                                    tipo_fid_id = reader.IsDBNull(reader.GetOrdinal("tipo_fid_id")) ? 0 : Convert.ToInt32(reader["tipo_fid_id"]),
+                                    id_fidelizacion = reader.IsDBNull(reader.GetOrdinal("fid_id")) ? 0 : Convert.ToInt32(reader["fid_id"]),
+                                    tienda_id = reader.IsDBNull(reader.GetOrdinal("tienda_id")) ? 0 : Convert.ToInt32(reader["tienda_id"]),
+                                    papel_0 = reader.IsDBNull(reader.GetOrdinal("papel_0")) ? 0 : Convert.ToInt32(reader["papel_0"]),
+                                    CodigoFidelizacion = reader.IsDBNull(reader.GetOrdinal("codigo")) ? "" : reader["codigo"].ToString(),
+                                    PuntosAcumulados = reader.IsDBNull(reader.GetOrdinal("puntos")) ? 0 : Convert.ToInt32(reader["puntos"])
                                 };
                             }
                         }
