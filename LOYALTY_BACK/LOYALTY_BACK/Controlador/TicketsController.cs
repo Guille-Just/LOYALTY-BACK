@@ -1,4 +1,5 @@
-﻿using LOYALTY_BACK.Servicios;
+﻿using LOYALTY_BACK.Modelo;
+using LOYALTY_BACK.Servicios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,33 +22,55 @@ namespace LOYALTY_BACK.Controlador
 
         protected override Task<string> HandleGetRequest(string path, string idCliente)
         {
-            return Task.FromResult(HandleTicketRequest(path, idCliente));
+            return null;
         }
 
-        private string HandleTicketRequest(string path, string idCliente)
+        protected override Task<string> HandleGetRequest(string path, string idCliente, string idTicket)
         {
             if (path == "/ticket")
             {
-                var tiketInfo = _ticketService.GetTiketInfo(idCliente);
-                if (tiketInfo != null)
+                return Task.FromResult(HandleTicketRequest(path, idTicket));
+            }
+            else if (path == "/ult_tiket")
+            {
+                return Task.FromResult(HandleTicketRequest(path, idCliente));
+            }
+            else //listado de tickets
+            {
+                return Task.FromResult(HandleTicketRequest(path, idCliente));
+            }
+        }
+
+        private string HandleTicketRequest(string path, string idTicket)
+        {
+            if (path == "/ticket")
+            {
+                if (!string.IsNullOrEmpty(idTicket))
                 {
-                    return JsonSerializer.Serialize(tiketInfo);
+                    int ticketId;
+                    if (int.TryParse(idTicket, out ticketId))
+                    {
+                        var ticket =  _ticketService.GetTicketById(ticketId);
+                        return JsonSerializer.Serialize(ticket);
+                    }
+                    else
+                    {
+                        return JsonSerializer.Serialize(new { Error = "ID de ticket no válido." });
+                    }
                 }
                 else
                 {
                     return JsonSerializer.Serialize(new { Error = "Cliente no encontrado." });
                 }
             }
-            /*else if (path == "/tikets")
-            {
-                var externalInfo = await ServiciosConcentrador.GetExternalInfoTiketsAsync(idCliente);
-                return JsonSerializer.Serialize(externalInfo);
-            }*/
+            
             else
             {
                 return JsonSerializer.Serialize(new { Error = "Ruta no soportada." });
             }
         }
+
+        
 
     }
 }

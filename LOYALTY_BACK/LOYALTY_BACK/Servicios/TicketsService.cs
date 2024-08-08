@@ -1,4 +1,5 @@
-﻿using LOYALTY_BACK.Modelo;
+﻿using LOYALTY_BACK.Comunicacion;
+using LOYALTY_BACK.Modelo;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -11,50 +12,38 @@ namespace LOYALTY_BACK.Servicios
     internal class TicketsService
     {
 
-        private readonly string _connectionString;
+        private readonly BD _conexionBD;
+        private readonly Concentrador _conexionConcentrador;
 
-        public TicketsService(string connectionString)
+        public TicketsService(BD conexionBD)
         {
-            _connectionString = connectionString;
+            _conexionBD = conexionBD;
+            _conexionConcentrador = new Concentrador();
         }
 
-        public Ticket GetTiketInfo(string idCliente)
+       
+
+        public async Task<Ticket> GetTicketById(int ticketId)
         {
-            Ticket ticket = null;
+            Ticket ticket = await _conexionBD.GetTicketById(ticketId);
 
-            try
+            if (ticket == null)
             {
-                using (var connection = new NpgsqlConnection(_connectionString))
+                // El ticket no existe en la base de datos, llamamos al servicio web
+                ticket = await _conexionConcentrador.GetTicketFromWebService(ticketId);
+
+                if (ticket != null)
                 {
-                    connection.Open();
-                    string query = "SELECT * FROM ticket WHERE fid_id = @IdCliente";
-                    using (var command = new NpgsqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@IdCliente", int.Parse(idCliente));
-
-                        using (var reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                ticket = new Ticket
-                                {
-                                    fidelizacion_id = reader.IsDBNull(reader.GetOrdinal("fid_id")) ? 0 : Convert.ToInt32(reader["fid_id"]),
-                                    ticket_id = reader.IsDBNull(reader.GetOrdinal("ticket_id")) ? 0 : Convert.ToInt32(reader["ticket_id"]),
-                                    doc_id = reader.IsDBNull(reader.GetOrdinal("doc_id")) ? 0 : Convert.ToInt32(reader["doc_id"]),
-                                    ticket = reader.IsDBNull(reader.GetOrdinal("ticket")) ? null : reader["ticket"] as byte[] // Leer el campo bytea como byte[]
-                                };
-                            }
-                        }
-                    }
+                    // Guardar el ticket en la base de datos
+                    await _conexionBD.SaveTicketToDatabase(ticket);
                 }
-            }
-            catch (Exception ex)
-            {
-                Globales.CrearLog($"Error al acceder a la base de datos: {ex.Message}");
             }
 
             return ticket;
         }
+
+
+       
 
 
     }

@@ -1,3 +1,4 @@
+using LOYALTY_BACK.Comunicacion;
 using LOYALTY_BACK.Controlador;
 using LOYALTY_BACK.Servicios;
 using Npgsql;
@@ -12,17 +13,37 @@ namespace LOYALTY_BACK
             InitializeComponent();
             Globales.CrearLog("Se inicio loyalty v" + Globales.VERSION);
 
+            tb_ip_server.Text = Globales.IP_SERVER;
+            tb_port_server.Text = Globales.PORT_SERVER;
+            //Conexion a concentrador
+            tb_ip_concentrador.Text = Globales.vg_ip_concentrador;
+            tb_port_concentrador.Text = Globales.vg_puerto_concentrador;
+            tb_ruta_concentrador_ticket.Text = Globales.vg_ruta_concentrador_ticket;
+
+
         }
 
+        /**
+         * Boton guardar
+         */
         private void btn_guardar_Click(object sender, EventArgs e)
         {
             Globales.IP_SERVER = tb_ip_server.Text;
             Globales.PORT_SERVER = tb_port_server.Text;
+
+            //Conexion a concentrador
+            Globales.vg_ip_concentrador             = tb_ip_concentrador.Text;
+            Globales.vg_puerto_concentrador         = tb_port_concentrador.Text;
+            Globales.vg_ruta_concentrador_ticket    = tb_ruta_concentrador_ticket.Text;
         }
 
+        /**
+         * Boton iniciar servicio
+         */
         private void btn_start_Click(object sender, EventArgs e)
         {
 
+            //Datos de conexion a la BD
             string host = Environment.GetEnvironmentVariable("DB_HOST");
             string username = Environment.GetEnvironmentVariable("DB_USERNAME");
             string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
@@ -39,10 +60,10 @@ namespace LOYALTY_BACK
 
         public static async Task ServicioSegundoPlano(string connectionString)
         {
-
+            BD conexionBD = new BD(connectionString);
             var fidelizacionService = new FidelizacionService(connectionString);
             var fidelizacionController = new FidelizacionController(fidelizacionService);
-            var ticketService = new TicketsService(connectionString);
+            var ticketService = new TicketsService(conexionBD);
             var ticketController = new TicketsController(ticketService);
 
             HttpListener listener = new HttpListener();
@@ -53,8 +74,6 @@ namespace LOYALTY_BACK
 
             while (true)
             {
-                //HttpListenerContext context = await listener.GetContextAsync();
-                //_ = Task.Run(() => fidelizacionController.HandleRequest(context));
                 HttpListenerContext context = await listener.GetContextAsync();
 
                 if (context.Request.Url.AbsolutePath.StartsWith("/fidelizacion"))

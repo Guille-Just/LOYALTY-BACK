@@ -12,6 +12,19 @@ namespace LOYALTY_BACK.Modelo
         public int ticket_id {  get; set; }
         public int fidelizacion_id { get; set; }
         public byte[] ticket { get; set; }
-        public int doc_id { get; set; }
+
+        public Ticket()
+        {
+            
+        }
+
+        public Ticket(int ticket_id, byte[] ticket_pdf)
+        {
+            //byte[] bytes = Encoding.ASCII.GetBytes(ticket_pdf);
+            this.ticket_id = ticket_id;
+            this.ticket = ticket_pdf;
+        }
     }
+
+    
 }

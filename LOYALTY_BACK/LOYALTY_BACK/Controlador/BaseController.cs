@@ -22,10 +22,11 @@ namespace LOYALTY_BACK.Controlador
                 {
                     string path = context.Request.Url.AbsolutePath;
                     string idCliente = context.Request.QueryString["id_cliente"];
+                    string idTicket = context.Request.QueryString["id_ticket"];
                     Globales.CrearLog("Solicitud: " + context.Request.Url);
-                    if (!string.IsNullOrEmpty(idCliente))
+                    if (!string.IsNullOrEmpty(idCliente) || !string.IsNullOrEmpty(idTicket))
                     {
-                        responseString = await HandleGetRequest(path, idCliente);
+                        responseString = await HandleGetRequest(path, idCliente, idTicket);
                     }
                     else
                     {
@@ -48,6 +49,8 @@ namespace LOYALTY_BACK.Controlador
             context.Response.OutputStream.Close();
             Globales.CrearLog("Respuesta: " + responseString);
         }
+
+        protected abstract Task<string> HandleGetRequest(string path, string idCliente, string idTicket);
 
         protected abstract Task<string> HandleGetRequest(string path, string idCliente);
 

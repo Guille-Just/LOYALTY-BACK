@@ -40,7 +40,15 @@
             label2 = new Label();
             tb_ruta_ticket = new TextBox();
             groupBox1 = new GroupBox();
+            label_puerto_concentrador = new Label();
+            tb_port_concentrador = new TextBox();
+            label_ip_concentrador = new Label();
+            tb_ip_concentrador = new TextBox();
+            label_ruta_concentrador = new Label();
+            tb_ruta_concentrador_ticket = new TextBox();
+            groupBox2 = new GroupBox();
             groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // tb_ip_server
@@ -155,11 +163,78 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "zona testing";
             // 
+            // label_puerto_concentrador
+            // 
+            label_puerto_concentrador.AutoSize = true;
+            label_puerto_concentrador.Location = new Point(12, 54);
+            label_puerto_concentrador.Name = "label_puerto_concentrador";
+            label_puerto_concentrador.Size = new Size(42, 15);
+            label_puerto_concentrador.TabIndex = 15;
+            label_puerto_concentrador.Text = "Puerto";
+            // 
+            // tb_port_concentrador
+            // 
+            tb_port_concentrador.Location = new Point(102, 51);
+            tb_port_concentrador.Name = "tb_port_concentrador";
+            tb_port_concentrador.Size = new Size(100, 23);
+            tb_port_concentrador.TabIndex = 14;
+            tb_port_concentrador.Text = "8080";
+            // 
+            // label_ip_concentrador
+            // 
+            label_ip_concentrador.AutoSize = true;
+            label_ip_concentrador.Location = new Point(12, 25);
+            label_ip_concentrador.Name = "label_ip_concentrador";
+            label_ip_concentrador.Size = new Size(17, 15);
+            label_ip_concentrador.TabIndex = 13;
+            label_ip_concentrador.Text = "IP";
+            // 
+            // tb_ip_concentrador
+            // 
+            tb_ip_concentrador.Location = new Point(102, 22);
+            tb_ip_concentrador.Name = "tb_ip_concentrador";
+            tb_ip_concentrador.Size = new Size(100, 23);
+            tb_ip_concentrador.TabIndex = 12;
+            tb_ip_concentrador.Text = "localhost";
+            // 
+            // label_ruta_concentrador
+            // 
+            label_ruta_concentrador.AutoSize = true;
+            label_ruta_concentrador.Location = new Point(12, 83);
+            label_ruta_concentrador.Name = "label_ruta_concentrador";
+            label_ruta_concentrador.Size = new Size(67, 15);
+            label_ruta_concentrador.TabIndex = 17;
+            label_ruta_concentrador.Text = "Ruta-Ticket";
+            // 
+            // tb_ruta_concentrador_ticket
+            // 
+            tb_ruta_concentrador_ticket.Location = new Point(102, 80);
+            tb_ruta_concentrador_ticket.Name = "tb_ruta_concentrador_ticket";
+            tb_ruta_concentrador_ticket.Size = new Size(100, 23);
+            tb_ruta_concentrador_ticket.TabIndex = 16;
+            tb_ruta_concentrador_ticket.Text = "sim_ticket";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(tb_ip_concentrador);
+            groupBox2.Controls.Add(label_ruta_concentrador);
+            groupBox2.Controls.Add(label_ip_concentrador);
+            groupBox2.Controls.Add(tb_ruta_concentrador_ticket);
+            groupBox2.Controls.Add(tb_port_concentrador);
+            groupBox2.Controls.Add(label_puerto_concentrador);
+            groupBox2.Location = new Point(12, 86);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(242, 123);
+            groupBox2.TabIndex = 18;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Conexión a concentrador";
+            // 
             // Configurador
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(groupBox2);
             Controls.Add(btn_start);
             Controls.Add(label_port_server);
             Controls.Add(tb_port_server);
@@ -168,9 +243,11 @@
             Controls.Add(tb_ip_server);
             Controls.Add(groupBox1);
             Name = "Configurador";
-            Text = "Form1";
+            Text = "Loyalty server";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -189,5 +266,12 @@
         private Label label2;
         private TextBox tb_ruta_ticket;
         private GroupBox groupBox1;
+        private Label label_puerto_concentrador;
+        private TextBox tb_port_concentrador;
+        private Label label_ip_concentrador;
+        private TextBox tb_ip_concentrador;
+        private Label label_ruta_concentrador;
+        private TextBox tb_ruta_concentrador_ticket;
+        private GroupBox groupBox2;
     }
 }

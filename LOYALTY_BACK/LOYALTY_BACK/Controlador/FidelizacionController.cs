@@ -18,6 +18,11 @@ namespace LOYALTY_BACK.Controlador
             _fidelizacionService = fidelizacionService;
         }
 
+        protected override Task<string> HandleGetRequest(string path, string idCliente, String idTicket)
+        {
+            return null;
+        }
+
         protected override Task<string> HandleGetRequest(string path, string idCliente)
         {
             return Task.FromResult(HandleFidelizacionRequest(path, idCliente));

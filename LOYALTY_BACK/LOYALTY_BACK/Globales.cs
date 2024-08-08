@@ -14,38 +14,19 @@ namespace LOYALTY_BACK
         public static Boolean DEBUG_MODE = true;
         public static string LOGS_DESTINATION_FOLDER = @"C:\loyalty\logs\loyalty.log";
 
-        public static String IP_SERVER = "localhost";
-        public static String PORT_SERVER = "3000";
+        //Datos de servidor propio
+        public static String IP_SERVER          = "localhost";
+        public static String PORT_SERVER        = "3000";
+
+        //Datos de conexion a concentrador
+        public static String vg_ip_concentrador               = "192.168.253.89";
+        public static String vg_puerto_concentrador           = "8080";
+        public static String vg_ruta_concentrador_ticket      = "webfidelizacion/reportdocumento";
+        public static String vg_ruta_concentrador_list_ticket = "webfidelizacion/documentos";
 
 
 
-        /*static (string Codigo, int Puntos) GetFidelizacionInfo(string idCliente)
-        {
-            string connectionString = "your_connection_string_here"; // Actualiza con tu cadena de conexión
-            string codigoFidelizacion = string.Empty;
-            int puntosAcumulados = 0;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                string query = "SELECT CodigoFidelizacion, Puntos FROM Clientes WHERE IdCliente = @IdCliente";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@IdCliente", idCliente);
-
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            codigoFidelizacion = reader["CodigoFidelizacion"].ToString();
-                            puntosAcumulados = Convert.ToInt32(reader["Puntos"]);
-                        }
-                    }
-                }
-            }
-
-            return (codigoFidelizacion, puntosAcumulados);
-        }*/
 
         /**
          * Guarda el 'texto' en un fichero de log
@@ -82,7 +63,6 @@ namespace LOYALTY_BACK
             }
             catch (Exception ex)
             {
-                //Console.WriteLine("Error al abrir el log " + LOGS_DESTINATION_FOLDER + ": " + ex.Message);
                 MessageBox.Show("Error al abrir el log " + LOGS_DESTINATION_FOLDER + ": " + ex.Message);
             }
 
@@ -132,5 +112,33 @@ namespace LOYALTY_BACK
         }
 
 
+        /**
+         * Guardar un pdf en formato byte[] en un directorio
+         * */
+        public void SavePdf(byte[] pdfData, string filePath)
+        {
+            try
+            {
+                // Asegúrate de que el directorio existe
+                string directory = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                // Escribir los bytes en el archivo
+                File.WriteAllBytes(filePath, pdfData);
+                Console.WriteLine($"PDF guardado correctamente en {filePath}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al guardar el PDF: {ex.Message}");
+            }
+        }
+
+
     }
+
+
+   
 }

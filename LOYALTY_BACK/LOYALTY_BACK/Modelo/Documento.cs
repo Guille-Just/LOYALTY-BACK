@@ -12,6 +12,8 @@ namespace LOYALTY_BACK.Modelo
         public int fidelizacion_id { get; set; }
         public DateTime fecha { get; set; }
         public int tipo { get; set; }
-        public double valor { get; set; }
+        public decimal importe { get; set; }
+        public string local { get; set; }
+        public string num_documento_formateado { get; set; }
     }
 }
